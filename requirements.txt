@@ -12,6 +12,8 @@ streamlit>=1.29.0
 timm>=0.9.12
 accelerate>=0.25.0
 pydantic>=2.5.2
+jsonlines
+bitsandbytes
 
 # for openai demo
 openai>=1.4.0
