@@ -11,6 +11,7 @@ import requests
 from PIL import Image
 from io import BytesIO
 
+import os
 import torch
 from sat.generation.autoregressive_sampling import filling_sequence, stream_filling_sequence, get_masks_and_position_ids_default
 from sat.generation.sampling_strategies import BaseStrategy, BeamSearchStrategy
@@ -22,6 +23,8 @@ def process_image(image_path, img_processor, cross_img_processor, image):
             response = requests.get(image_path, timeout=10)
             image = Image.open(BytesIO(response.content))
         else:
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            image_path = os.path.join(script_dir, image_path)
             image = Image.open(image_path)
 
     if image is not None and isinstance(image, Image.Image):
