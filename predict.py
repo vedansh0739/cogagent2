@@ -30,7 +30,7 @@ def main():
     
     rank = int(os.environ.get('RANK', 0))
     world_size = int(os.environ.get('WORLD_SIZE', 1))
-    args = parser.parse_args()
+
 
     # load model
     model, model_args = AutoModel.from_pretrained(
