@@ -1,8 +1,10 @@
 # -*- encoding: utf-8 -*-
+from cog import BasePredictor, Path, Input
+import torch
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import torch
-import argparse
+
 from sat.model.mixins import CachedAutoregressiveMixin
 from sat.quantization.kernels import quantize
 from sat.model import AutoModel
@@ -12,21 +14,20 @@ from utils.utils import chat, llama2_tokenizer, llama2_text_processor_inference,
 from utils.models import CogAgentModel, CogVLMModel
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--max_length", type=int, default=2048, help='max length of the total sequence')
-    parser.add_argument("--top_p", type=float, default=0.4, help='top p for nucleus sampling')
-    parser.add_argument("--top_k", type=int, default=1, help='top k for top k sampling')
-    parser.add_argument("--temperature", type=float, default=.8, help='temperature for sampling')
-    parser.add_argument("--chinese", action='store_true', help='Chinese interface')
-    parser.add_argument("--version", type=str, default="chat", choices=['chat', 'vqa', 'chat_old', 'base'], help='version of language process. if there is \"text_processor_version\" in model_config.json, this option will be overwritten')
-    parser.add_argument("--quant", choices=[8, 4], type=int, default=None, help='quantization bits')
+    max_length = 2048  # Default max_length
+    top_p = 0.4  # Default top_p for nucleus sampling
+    top_k = 1  # Default top_k for top k sampling
+    temperature = 0.2  # Default temperature for sampling
+    chinese = False  # Default for Chinese interface
+    version = "chat"  # Default version of language process
+    quant = None  # Default quantization bits
+    from_pretrained = "cogagent-chat"  # Default pretrained checkpoint
+    local_tokenizer = "lmsys/vicuna-7b-v1.5"  # Default tokenizer path
+    fp16 = False  # Default fp16 setting
+    bf16 = True  # Default bf16 setting
+    stream_chat = True  # Default stream_chat setting
 
-    parser.add_argument("--from_pretrained", type=str, default="cogagent-chat", help='pretrained ckpt')
-    parser.add_argument("--local_tokenizer", type=str, default="lmsys/vicuna-7b-v1.5", help='tokenizer path')
-    parser.add_argument("--fp16", action="store_true")
-    parser.add_argument("--bf16", action="store_true")
-    parser.add_argument("--stream_chat", action="store_true")
-    args = parser.parse_args()
+    
     rank = int(os.environ.get('RANK', 0))
     world_size = int(os.environ.get('WORLD_SIZE', 1))
     args = parser.parse_args()
