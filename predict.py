@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 import os, sys
-sys.path.append(os.path.dirnam(os.path.dirname(os.path.abspath(__file__))))
-#ola
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import torch
 import argparse
 from sat.model.mixins import CachedAutoregressiveMixin
