@@ -34,7 +34,7 @@ def main():
 
     # load model
     model, model_args = AutoModel.from_pretrained(
-        args.from_pretrained,
+        from_pretrained,
         args=argparse.Namespace(
         deepspeed=None,
         local_rank=rank,
