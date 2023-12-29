@@ -23,25 +23,25 @@ class Predictor(BasePredictor):
     def setup(self) -> None:
         """Load the model into memory to make running multiple predictions efficient"""
         # self.model = torch.load("./weights.pth")
-        max_length = 2048  # Default max_length
-        top_p = 0.4  # Default top_p for nucleus sampling
-        top_k = 1  # Default top_k for top k sampling
-        temperature = 0.2  # Default temperature for sampling
-        chinese = False  # Default for Chinese interface
-        version = "chat"  # Default version of language process
-        quant = None  # Default quantization bits
-        from_pretrained = "cogagent-chat"  # Default pretrained checkpoint
-        local_tokenizer = "lmsys/vicuna-7b-v1.5"  # Default tokenizer path
-        fp16 = False  # Default fp16 setting
-        bf16 = True  # Default bf16 setting
-        stream_chat = True  # Default stream_chat setting
+        self.max_length = 2048  # Default max_length
+        self.top_p = 0.4  # Default top_p for nucleus sampling
+        self.top_k = 1  # Default top_k for top k sampling
+        self.temperature = 0.2  # Default temperature for sampling
+        self.chinese = False  # Default for Chinese interface
+        self.version = "chat"  # Default version of language process
+        self.quant = None  # Default quantization bits
+        self.from_pretrained = "cogagent-chat"  # Default pretrained checkpoint
+        self.local_tokenizer = "lmsys/vicuna-7b-v1.5"  # Default tokenizer path
+        self.fp16 = False  # Default fp16 setting
+        self.bf16 = True  # Default bf16 setting
+        self.stream_chat = True  # Default stream_chat setting
 
         
-        rank = int(os.environ.get('RANK', 0))
-        world_size = int(os.environ.get('WORLD_SIZE', 1))
+        self.rank = int(os.environ.get('RANK', 0))
+        self.world_size = int(os.environ.get('WORLD_SIZE', 1))
 
 
-        args=argparse.Namespace(
+        self.args=argparse.Namespace(
              max_length = 2048  # Default max_length
         top_p = 0.4  # Default top_p for nucleus sampling
         top_k = 1  # Default top_k for top k sampling
@@ -58,18 +58,18 @@ class Predictor(BasePredictor):
 
                 )
                 # load model
-        model, model_args = AutoModel.from_pretrained(
-            from_pretrained,
+        self.model, self.model_args = AutoModel.from_pretrained(
+            self.from_pretrained,
             args=argparse.Namespace(
             deepspeed=None,
-            local_rank=rank,
-            rank=rank,
-            world_size=world_size,
-            model_parallel_size=world_size,
+            local_rank=self.rank,
+            rank=self.rank,
+            world_size=self.world_size,
+            model_parallel_size=self.world_size,
             mode='inference',
             skip_init=True,
-            use_gpu_initialization=True if (torch.cuda.is_available() and quant is None) else False,
-            device='cpu' if quant else 'cuda',
+            use_gpu_initialization=True if (torch.cuda.is_available() and self.quant is None) else False,
+            device='cpu' if self.quant else 'cuda',
             max_length = 2048  # Default max_length
             top_p = 0.4  # Default top_p for nucleus sampling
             top_k = 1  # Default top_k for top k sampling
@@ -82,26 +82,26 @@ class Predictor(BasePredictor):
             fp16 = False  # Default fp16 setting
             bf16 = True  # Default bf16 setting
             stream_chat = True  # Default stream_chat setting
-        ), overwrite_args={'model_parallel_size': world_size} if world_size != 1 else {})
-        model = model.eval()
+        ), overwrite_args={'model_parallel_size': self.world_size} if self.world_size != 1 else {})
+        self.model = self.model.eval()
         from sat.mpu import get_model_parallel_world_size
-        assert world_size == get_model_parallel_world_size(), "world size must equal to model parallel size for cli_demo!"
+        assert self.world_size == get_model_parallel_world_size(), "world size must equal to model parallel size for cli_demo!"
 
-        language_processor_version = model_args.text_processor_version if 'text_processor_version' in model_args else version
-        print("[Language processor version]:", language_processor_version)
-        tokenizer = llama2_tokenizer(local_tokenizer, signal_type=language_processor_version)
-        image_processor = get_image_processor(model_args.eva_args["image_size"][0])
-        cross_image_processor = get_image_processor(model_args.cross_image_pix) if "cross_image_pix" in model_args else None
+        self.language_processor_version = self.model_args.text_processor_version if 'text_processor_version' in self.model_args else self.version
+        print("[Language processor version]:", self.language_processor_version)
+        self.tokenizer = llama2_tokenizer(self.local_tokenizer, signal_type=self.language_processor_version)
+        self.image_processor = get_image_processor(self.model_args.eva_args["image_size"][0])
+        self.cross_image_processor = get_image_processor(self.model_args.cross_image_pix) if "cross_image_pix" in self.model_args else None
         
-        if quant:
-            quantize(model, quant)
+        if self.quant:
+            quantize(self.model, self.quant)
             if torch.cuda.is_available():
-                model = model.cuda()
+                self.model = self.model.cuda()
 
 
-        model.add_mixin('auto-regressive', CachedAutoregressiveMixin())
+        self.model.add_mixin('auto-regressive', CachedAutoregressiveMixin())
 
-        text_processor_infer = llama2_text_processor_inference(tokenizer, max_length, model.image_length)
+        self.text_processor_infer = llama2_text_processor_inference(self.tokenizer, self.max_length, self.model.image_length)
     @cog.input("image", type=Path, help="Input image")
     @cog.input("query", type=str, help="Query")             
     def predict(
@@ -110,27 +110,27 @@ class Predictor(BasePredictor):
         query
     ) -> Output:
         with torch.no_grad():
-            history = None
-            cache_image = None
-            image_path = image_path[0]
+            self.history = None
+            self.cache_image = None
+
 
 
             
-            response, history, cache_image = chat(
-                        image_path,
-                        model,
-                        text_processor_infer,
-                        image_processor,
-                        query,
-                        history=history,
-                        cross_img_processor=cross_image_processor,
-                        image=cache_image,
-                        max_length=max_length,
-                        top_p=top_p,
-                        temperature=temperature,
-                        top_k=top_k,
-                        invalid_slices=text_processor_infer.invalid_slices,
-                        args=args
+            self.response, self.history, self.cache_image = chat(
+                        self.image_path,
+                        self.model,
+                        self.text_processor_infer,
+                        self.image_processor,
+                        self.query,
+                        history=self.history,
+                        cross_img_processor=self.cross_image_processor,
+                        image=self.cache_image,
+                        max_length=self.max_length,
+                        top_p=self.top_p,
+                        temperature=self.temperature,
+                        top_k=self.top_k,
+                        invalid_slices=self.text_processor_infer.invalid_slices,
+                        args=self.args
                         )
             output_path = Path(tempfile.mkdtemp()) / "upscaled.jpg"
             cache_image.save(output_path)
