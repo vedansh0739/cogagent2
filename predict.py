@@ -1,22 +1,24 @@
 # Prediction interface for Cog ⚙️
 # https://github.com/replicate/cog/blob/main/docs/python.md
 
-from cog import BasePredictor, Path, Input
+from cog import BasePredictor, Path, Input, BaseModel, File
 import torch
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import torch
-
+from pathlib import Path
 from sat.model.mixins import CachedAutoregressiveMixin
 from sat.quantization.kernels import quantize
 from sat.model import AutoModel
-
+import tempfile
 import argparse
 from utils.utils import chat, llama2_tokenizer, llama2_text_processor_inference, get_image_processor
 from utils.models import CogAgentModel, CogVLMModel
 
 
-
+class Output(BaseModel):
+    file1: Path
+    text: str
 class Predictor(BasePredictor):
     def setup(self) -> None:
         """Load the model into memory to make running multiple predictions efficient"""
@@ -100,25 +102,19 @@ class Predictor(BasePredictor):
         model.add_mixin('auto-regressive', CachedAutoregressiveMixin())
 
         text_processor_infer = llama2_text_processor_inference(tokenizer, max_length, model.image_length)
-             
+    @cog.input("image", type=Path, help="Input image")
+    @cog.input("query", type=str, help="Query")             
     def predict(
         self,
-        image: Path = Input(description="Grayscale input image"),
-        scale: float = Input(
-            description="Factor to scale image by", ge=0, le=10, default=1.5
-        ),
-    ) -> Path:
-        """Run a single prediction on the model"""
-        # processed_input = preprocess(image)
-        # output = self.model(processed_image, scale)
-        # return postprocess(output)
+        image,
+        query
+    ) -> Output:
         with torch.no_grad():
             history = None
             cache_image = None
             image_path = image_path[0]
 
 
-            query = query[0]
             
             response, history, cache_image = chat(
                         image_path,
@@ -136,5 +132,7 @@ class Predictor(BasePredictor):
                         invalid_slices=text_processor_infer.invalid_slices,
                         args=args
                         )
-         
+            output_path = Path(tempfile.mkdtemp()) / "upscaled.jpg"
+            cache_image.save(output_path)
+            return Output(text=response, file1=Path(output_path)) 
              
