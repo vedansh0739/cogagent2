@@ -15,7 +15,7 @@ import argparse
 from utils.utils import chat, llama2_tokenizer, llama2_text_processor_inference, get_image_processor
 from utils.models import CogAgentModel, CogVLMModel
 
-
+import cog
 class Output(BaseModel):
     file1: Path
     text: str
@@ -42,47 +42,46 @@ class Predictor(BasePredictor):
 
 
         self.args=argparse.Namespace(
-             max_length = 2048  # Default max_length
-        top_p = 0.4  # Default top_p for nucleus sampling
-        top_k = 1  # Default top_k for top k sampling
-        temperature = 0.2  # Default temperature for sampling
-        chinese = False  # Default for Chinese interface
-        version = "chat"  # Default version of language process
-        quant = None  # Default quantization bits
-        from_pretrained = "cogagent-chat"  # Default pretrained checkpoint
-        local_tokenizer = "lmsys/vicuna-7b-v1.5"  # Default tokenizer path
-        fp16 = False  # Default fp16 setting
-        bf16 = True  # Default bf16 setting
-        stream_chat = True  # Default stream_chat setting
-
-
-                )
+            max_length = 2048,  # Default max_length
+            top_p = 0.4,  # Default top_p for nucleus sampling
+            top_k = 1,  # Default top_k for top k sampling
+            temperature = 0.2,  # Default temperature for sampling
+            chinese = False,  # Default for Chinese interface
+            version = "chat",  # Default version of language process
+            quant = None,  # Default quantization bits
+            from_pretrained = "cogagent-chat",  # Default pretrained checkpoint
+            local_tokenizer = "lmsys/vicuna-7b-v1.5",  # Default tokenizer path
+            fp16 = False,  # Default fp16 setting
+            bf16 = True,  # Default bf16 setting
+            stream_chat = True  # Default stream_chat setting
+        )
                 # load model
         self.model, self.model_args = AutoModel.from_pretrained(
             self.from_pretrained,
             args=argparse.Namespace(
-            deepspeed=None,
-            local_rank=self.rank,
-            rank=self.rank,
-            world_size=self.world_size,
-            model_parallel_size=self.world_size,
-            mode='inference',
-            skip_init=True,
-            use_gpu_initialization=True if (torch.cuda.is_available() and self.quant is None) else False,
-            device='cpu' if self.quant else 'cuda',
-            max_length = 2048  # Default max_length
-            top_p = 0.4  # Default top_p for nucleus sampling
-            top_k = 1  # Default top_k for top k sampling
-            temperature = 0.2  # Default temperature for sampling
-            chinese = False  # Default for Chinese interface
-            version = "chat"  # Default version of language process
-            quant = None  # Default quantization bits
-            from_pretrained = "cogagent-chat"  # Default pretrained checkpoint
-            local_tokenizer = "lmsys/vicuna-7b-v1.5"  # Default tokenizer path
-            fp16 = False  # Default fp16 setting
-            bf16 = True  # Default bf16 setting
-            stream_chat = True  # Default stream_chat setting
-        ), overwrite_args={'model_parallel_size': self.world_size} if self.world_size != 1 else {})
+                deepspeed=None,
+                local_rank=self.rank,
+                rank=self.rank,
+                world_size=self.world_size,
+                model_parallel_size=self.world_size,
+                mode='inference',
+                skip_init=True,
+                use_gpu_initialization=True if (torch.cuda.is_available() and self.quant is None) else False,
+                device='cpu' if self.quant else 'cuda',
+                max_length = 2048,  # Default max_length
+                top_p = 0.4,  # Default top_p for nucleus sampling
+                top_k = 1,  # Default top_k for top k sampling
+                temperature = 0.2,  # Default temperature for sampling
+                chinese = False,  # Default for Chinese interface
+                version = "chat",  # Default version of language process
+                quant = None,  # Default quantization bits
+                from_pretrained = "cogagent-chat",  # Default pretrained checkpoint
+                local_tokenizer = "lmsys/vicuna-7b-v1.5",  # Default tokenizer path
+                fp16 = False,  # Default fp16 setting
+                bf16 = True,  # Default bf16 setting
+                stream_chat = True,  # Default stream_chat setting
+            ), overwrite_args={'model_parallel_size': self.world_size} if self.world_size != 1 else {}
+        )
         self.model = self.model.eval()
         from sat.mpu import get_model_parallel_world_size
         assert self.world_size == get_model_parallel_world_size(), "world size must equal to model parallel size for cli_demo!"
@@ -102,12 +101,10 @@ class Predictor(BasePredictor):
         self.model.add_mixin('auto-regressive', CachedAutoregressiveMixin())
 
         self.text_processor_infer = llama2_text_processor_inference(self.tokenizer, self.max_length, self.model.image_length)
-    @cog.input("image", type=Path, help="Input image")
-    @cog.input("query", type=str, help="Query")             
     def predict(
         self,
-        image,
-        query
+        image: cog.Path = Input(description="Image"),
+        query: str = Input(description="Query")
     ) -> Output:
         with torch.no_grad():
             self.history = None

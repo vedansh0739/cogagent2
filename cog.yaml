@@ -14,10 +14,6 @@ build:
     - "python3-dev"
     - "libc-bin"
 
-  environment_variables:
-    "PATH":"$PATH:/sbin"
-  python_packages:
-    - "spacy"
   
 
   run:
@@ -25,5 +21,5 @@ build:
     - "git clone https://github.com/NVIDIA/apex && cd apex && pip install -v --disable-pip-version-check --no-cache-dir --no-build-isolation --config-settings=\"--build-option=--cpp_ext\" --config-settings=\"--build-option=--cuda_ext\" ./"
     - "ldconfig"
     - "export PATH=$PATH:/sbin"    
-    - "python build.py"
+    - 'python -c "#script to download model;import cog;from cog import BasePredictor, Path, Input, BaseModel, File;import torch;import os, sys;sys.path.append(os.path.dirname(os.path.abspath(__file__)));import torch;from sat.model.mixins import CachedAutoregressiveMixin;from sat.quantization.kernels import quantize;from sat.model import AutoModel;import argparse;from utils.utils import chat, llama2_tokenizer, llama2_text_processor_inference, get_image_processor;from utils.models import CogAgentModel, CogVLMModel;\"\"\"Load the model into memory to make running multiple predictions efficient\"\"\";# model = torch.load(\"./weights.pth\");max_length = 2048  # Default max_length;top_p = 0.4  # Default top_p for nucleus sampling;top_k = 1  # Default top_k for top k sampling;temperature = 0.2  # Default temperature for sampling;chinese = False  # Default for Chinese interface;version = \"chat\"  # Default version of language process;quant = None  # Default quantization bits;from_pretrained = \"cogagent-chat\"  # Default pretrained checkpoint;local_tokenizer = \"lmsys/vicuna-7b-v1.5\"  # Default tokenizer path;fp16 = False  # Default fp16 setting;bf16 = True  # Default bf16 setting;stream_chat = True  # Default stream_chat setting;rank = int(os.environ.get(\"RANK\", 0));world_size = int(os.environ.get(\"WORLD_SIZE\", 1));args=argparse.Namespace(;     max_length = 2048,  # Default max_length;top_p = 0.4,  # Default top_p for nucleus sampling;top_k = 1,  # Default top_k for top k sampling;temperature = 0.2,  # Default temperature for sampling;chinese = False,  # Default for Chinese interface;version = \"chat\",  # Default version of language process;quant = None,  # Default quantization bits;from_pretrained = \"cogagent-chat\",  # Default pretrained checkpoint;local_tokenizer = \"lmsys/vicuna-7b-v1.5\" , # Default tokenizer path;fp16 = False,  # Default fp16 setting;bf16 = True,  # Default bf16 setting;stream_chat = True,  # Default stream_chat setting;"'
 predict: "predict.py:Predictor"
