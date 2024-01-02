@@ -108,7 +108,7 @@ class Predictor():
     def predict(
         self,
         query,
-        imagepath
+        image_path
     ):
         logger.error(query)
         with torch.no_grad():
@@ -122,7 +122,7 @@ class Predictor():
                         query,
                         history=self.history,
                         cross_img_processor=self.cross_image_processor,
-                        image=image,
+                        image=None,
                         max_length=self.max_length,
                         top_p=self.top_p,
                         temperature=self.temperature,
