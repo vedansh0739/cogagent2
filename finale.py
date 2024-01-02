@@ -22,6 +22,7 @@ from utils.utils import chat, llama2_tokenizer, llama2_text_processor_inference,
 from utils.models import CogAgentModel, CogVLMModel
 
 
+
 class Predictor():
     def __init__(self):
         """Load the model into memory to make running multiple predictions efficient"""
@@ -109,7 +110,7 @@ class Predictor():
     def predict(
         self,
         query,
-        imagepath
+        image_path
     ):
         logger.error(query)
         with torch.no_grad():
@@ -123,7 +124,7 @@ class Predictor():
                         query,
                         history=self.history,
                         cross_img_processor=self.cross_image_processor,
-                        image=image,
+                        image=None,
                         max_length=self.max_length,
                         top_p=self.top_p,
                         temperature=self.temperature,
@@ -136,6 +137,12 @@ class Predictor():
              
 
 
+
+
+
+
+
+
 app = Flask(__name__)
 @app.route('/')
 def hello_world():
@@ -143,7 +150,6 @@ def hello_world():
 
 @app.route('/initiate')
 def initiate():
-    logger.error("model started")
     predictor=Predictor()
 
 
@@ -153,20 +159,11 @@ def infer():
     if 'screenshot' in request.files:
         # Retrieve the screenshot file
         screenshot_file = request.files['screenshot']
-        screenshot_file.save('scr.jpg')
-        imagepath='scr.jpg'
+        screenshot_file.save('utils/utils/a.jpg')
+        imagepath='utils/utils/a.jpg'
         string_data = request.form.get('string_data', 'Default String if Not Provided')
 
         answerdict=predictor.predict(string_data,imagepath)
-
-
-
-    
-
-
-
-
-
 
         
         return jsonify({'cmd': answerdict['cmd']})
