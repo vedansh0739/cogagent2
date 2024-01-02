@@ -16,6 +16,23 @@ from utils.utils import chat, llama2_tokenizer, llama2_text_processor_inference,
 from utils.models import CogAgentModel, CogVLMModel
 
 import cog
+
+
+
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello_world():
+    return 'Hello, World!'
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0',port=80)
+
+
+
+
 class Output(BaseModel):
     file1: Path
     text: str
