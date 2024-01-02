@@ -1,0 +1,21 @@
+[2024-01-02 17:25:44 +0000] [5547] [INFO] Starting gunicorn 21.2.0
+[2024-01-02 17:25:44 +0000] [5547] [INFO] Listening at: http://0.0.0.0:8000 (5547)
+[2024-01-02 17:25:44 +0000] [5547] [INFO] Using worker: sync
+[2024-01-02 17:25:44 +0000] [5548] [INFO] Booting worker with pid: 5548
+[2024-01-02 17:25:48 +0000] [5547] [INFO] Handling signal: int
+[2024-01-02 17:25:49 +0000] [5548] [INFO] Worker exiting (pid: 5548)
+[2024-01-02 17:25:49 +0000] [5547] [INFO] Shutting down: Master
+[2024-01-02 17:27:33 +0000] [5779] [INFO] Starting gunicorn 21.2.0
+[2024-01-02 17:27:33 +0000] [5779] [INFO] Listening at: http://0.0.0.0:8000 (5779)
+[2024-01-02 17:27:33 +0000] [5779] [INFO] Using worker: sync
+[2024-01-02 17:27:33 +0000] [5780] [INFO] Booting worker with pid: 5780
+[2024-01-02 17:28:18 +0000] [5779] [INFO] Handling signal: int
+[2024-01-02 17:28:18 +0000] [5780] [INFO] Worker exiting (pid: 5780)
+[2024-01-02 17:28:19 +0000] [5779] [INFO] Shutting down: Master
+[2024-01-02 17:30:23 +0000] [6121] [INFO] Starting gunicorn 21.2.0
+[2024-01-02 17:30:23 +0000] [6121] [INFO] Listening at: http://0.0.0.0:8000 (6121)
+[2024-01-02 17:30:23 +0000] [6121] [INFO] Using worker: sync
+[2024-01-02 17:30:23 +0000] [6122] [INFO] Booting worker with pid: 6122
+[2024-01-02 17:31:02 +0000] [6121] [INFO] Handling signal: int
+[2024-01-02 17:31:02 +0000] [6122] [INFO] Worker exiting (pid: 6122)
+[2024-01-02 17:31:03 +0000] [6121] [INFO] Shutting down: Master

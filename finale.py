@@ -2,10 +2,12 @@
 from flask import Flask, request, jsonify
 from PIL import Image
 import io
+import logging
+logger = logging.getLogger(__name__)
 
 
 
-from cog import BasePredictor, Path, Input, BaseModel, File
+
 import torch
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -19,7 +21,6 @@ import argparse
 from utils.utils import chat, llama2_tokenizer, llama2_text_processor_inference, get_image_processor
 from utils.models import CogAgentModel, CogVLMModel
 
-import cog
 
 class Predictor():
     def __init__(self):
@@ -89,7 +90,7 @@ class Predictor():
         assert self.world_size == get_model_parallel_world_size(), "world size must equal to model parallel size for cli_demo!"
 
         self.language_processor_version = self.model_args.text_processor_version if 'text_processor_version' in self.model_args else self.version
-        print("[Language processor version]:", self.language_processor_version)
+        logger.error("[Language processor version]:", self.language_processor_version)
         self.tokenizer = llama2_tokenizer(self.local_tokenizer, signal_type=self.language_processor_version)
         self.image_processor = get_image_processor(self.model_args.eva_args["image_size"][0])
         self.cross_image_processor = get_image_processor(self.model_args.cross_image_pix) if "cross_image_pix" in self.model_args else None
@@ -110,6 +111,7 @@ class Predictor():
         query,
         imagepath
     ):
+        logger.error(query)
         with torch.no_grad():
             self.history = None
             self.cache_image = None
@@ -129,6 +131,7 @@ class Predictor():
                         invalid_slices=self.text_processor_infer.invalid_slices,
                         args=self.args
                         )
+            logger.error(self.response)
             return{'cmd':self.response, 'img':self.cache_image}
              
 
@@ -138,27 +141,39 @@ app = Flask(__name__)
 def hello_world():
     return 'Hello, World!'
 
-@app.route('/initiate',methods=['POST'])
+@app.route('/initiate')
 def initiate():
+    logger.error("model started")
     predictor=Predictor()
 
 
     
-@app.route('/infer', methods=['POST'])
+@app.route('/infer')
 def infer():
-    if 'screenshot' in request.FILES:
+    if 'screenshot' in request.files:
         # Retrieve the screenshot file
-        screenshot_file = request.FILES['screenshot']
-        text_data=cmd = request.POST.get('string_data', '')
+        screenshot_file = request.files['screenshot']
         screenshot_file.save('scr.jpg')
         imagepath='scr.jpg'
+        string_data = request.form.get('string_data', 'Default String if Not Provided')
 
-        answerdict=predictor.predict(text_data,imagepath)
+        answerdict=predictor.predict(string_data,imagepath)
+
+
+
+    
+
+
+
+
+
+
+        
         return jsonify({'cmd': answerdict['cmd']})
     else:
         return jsonify({'error': 'Screenshot file not provided.'}), 400
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=80)
+    app.run()
 
 
