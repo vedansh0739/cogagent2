@@ -38,7 +38,7 @@ class Predictor():
         self.local_tokenizer = "lmsys/vicuna-7b-v1.5"  # Default tokenizer path
         self.fp16 = False  # Default fp16 setting
         self.bf16 = True  # Default bf16 setting
-        self.stream_chat = True  # Default stream_chat setting
+        self.stream_chat = False  # Default stream_chat setting
 
         
         self.rank = int(os.environ.get('RANK', 0))
@@ -57,7 +57,7 @@ class Predictor():
             local_tokenizer = "lmsys/vicuna-7b-v1.5",  # Default tokenizer path
             fp16 = False,  # Default fp16 setting
             bf16 = True,  # Default bf16 setting
-            stream_chat = True  # Default stream_chat setting
+            stream_chat = False  # Default stream_chat setting
         )
                 # load model
         self.model, self.model_args = AutoModel.from_pretrained(
@@ -83,7 +83,7 @@ class Predictor():
                 local_tokenizer = "lmsys/vicuna-7b-v1.5",  # Default tokenizer path
                 fp16 = False,  # Default fp16 setting
                 bf16 = True,  # Default bf16 setting
-                stream_chat = True,  # Default stream_chat setting
+                stream_chat = False,  # Default stream_chat setting
             ), overwrite_args={'model_parallel_size': self.world_size} if self.world_size != 1 else {}
         )
         self.model = self.model.eval()
@@ -166,7 +166,7 @@ def infer():
         answerdict=predictor.predict(string_data,imagepath)
 
         
-        return jsonify({'cmd': answerdict['cmd']})
+        return jsonify({'cmd': answerdict['cmd'],'imgtype':type(answerdict['img'])})
     else:
         return jsonify({'error': 'Screenshot file not provided.'}), 400
 
