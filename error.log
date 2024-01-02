@@ -19,3 +19,50 @@
 [2024-01-02 17:31:02 +0000] [6121] [INFO] Handling signal: int
 [2024-01-02 17:31:02 +0000] [6122] [INFO] Worker exiting (pid: 6122)
 [2024-01-02 17:31:03 +0000] [6121] [INFO] Shutting down: Master
+[2024-01-02 19:50:26 +0000] [10227] [INFO] Starting gunicorn 21.2.0
+[2024-01-02 19:50:26 +0000] [10227] [INFO] Listening at: http://0.0.0.0:8000 (10227)
+[2024-01-02 19:50:26 +0000] [10227] [INFO] Using worker: sync
+[2024-01-02 19:50:26 +0000] [10228] [INFO] Booting worker with pid: 10228
+[2024-01-02 19:52:10,212] [INFO] building CogAgentModel model ...
+[2024-01-02 19:52:10,215] [INFO] [RANK 0] > initializing model parallel with size 1
+[2024-01-02 19:52:10,215] [INFO] [RANK 0] You didn't pass in LOCAL_WORLD_SIZE environment variable. We use the guessed LOCAL_WORLD_SIZE=1. If this is wrong, please pass the LOCAL_WORLD_SIZE manually.
+[2024-01-02 19:52:10,216] [INFO] [RANK 0] You are using model-only mode.
+For torch.distributed users or loading model parallel models, set environment variables RANK, WORLD_SIZE and LOCAL_RANK.
+[2024-01-02 19:52:39,211] [INFO] [RANK 0]  > number of parameters on model parallel rank 0: 18291033280
+INFO:sat:[RANK 0]  > number of parameters on model parallel rank 0: 18291033280
+[2024-01-02 19:52:40 +0000] [10227] [CRITICAL] WORKER TIMEOUT (pid:10228)
+[2024-01-02 19:52:40 +0000] [10228] [INFO] Worker exiting (pid: 10228)
+[2024-01-02 19:52:41 +0000] [10227] [ERROR] Worker (pid:10228) exited with code 1
+[2024-01-02 19:52:41 +0000] [10227] [ERROR] Worker (pid:10228) exited with code 1.
+[2024-01-02 19:52:41 +0000] [10508] [INFO] Booting worker with pid: 10508
+[2024-01-02 19:53:19 +0000] [10227] [INFO] Handling signal: int
+[2024-01-02 19:53:19 +0000] [10508] [INFO] Worker exiting (pid: 10508)
+[2024-01-02 19:53:20 +0000] [10227] [INFO] Shutting down: Master
+[2024-01-02 19:56:08 +0000] [10951] [INFO] Starting gunicorn 21.2.0
+[2024-01-02 19:56:08 +0000] [10951] [INFO] Listening at: http://0.0.0.0:8000 (10951)
+[2024-01-02 19:56:08 +0000] [10951] [INFO] Using worker: sync
+[2024-01-02 19:56:08 +0000] [10952] [INFO] Booting worker with pid: 10952
+[2024-01-02 19:59:10 +0000] [10951] [INFO] Handling signal: int
+[2024-01-02 19:59:10 +0000] [10952] [INFO] Worker exiting (pid: 10952)
+[2024-01-02 19:59:11 +0000] [10951] [INFO] Shutting down: Master
+[2024-01-02 20:03:41 +0000] [11766] [INFO] Starting gunicorn 21.2.0
+[2024-01-02 20:03:41 +0000] [11766] [INFO] Listening at: http://0.0.0.0:8000 (11766)
+[2024-01-02 20:03:41 +0000] [11766] [INFO] Using worker: sync
+[2024-01-02 20:03:41 +0000] [11767] [INFO] Booting worker with pid: 11767
+[2024-01-02 20:14:16 +0000] [11766] [INFO] Handling signal: int
+[2024-01-02 20:14:16 +0000] [11767] [INFO] Worker exiting (pid: 11767)
+[2024-01-02 20:14:17 +0000] [11766] [INFO] Shutting down: Master
+[2024-01-02 20:14:19 +0000] [14643] [INFO] Starting gunicorn 21.2.0
+[2024-01-02 20:14:19 +0000] [14643] [INFO] Listening at: http://0.0.0.0:8000 (14643)
+[2024-01-02 20:14:19 +0000] [14643] [INFO] Using worker: sync
+[2024-01-02 20:14:19 +0000] [14644] [INFO] Booting worker with pid: 14644
+[2024-01-02 20:14:20 +0000] [14643] [INFO] Handling signal: int
+[2024-01-02 20:14:20 +0000] [14644] [INFO] Worker exiting (pid: 14644)
+[2024-01-02 20:14:20 +0000] [14643] [INFO] Shutting down: Master
+[2024-01-02 20:15:03 +0000] [14728] [INFO] Starting gunicorn 21.2.0
+[2024-01-02 20:15:03 +0000] [14728] [INFO] Listening at: http://0.0.0.0:8000 (14728)
+[2024-01-02 20:15:03 +0000] [14728] [INFO] Using worker: sync
+[2024-01-02 20:15:03 +0000] [14736] [INFO] Booting worker with pid: 14736
+[2024-01-02 20:16:48 +0000] [14728] [INFO] Handling signal: int
+[2024-01-02 20:16:49 +0000] [14736] [INFO] Worker exiting (pid: 14736)
+[2024-01-02 20:16:50 +0000] [14728] [INFO] Shutting down: Master
