@@ -144,13 +144,14 @@ class Predictor():
 
 
 app = Flask(__name__)
+app.predictor = None
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
 
 @app.route('/initiate')
 def initiate():
-    predictor=Predictor()
+    app.predictor=Predictor()
 
 
     
@@ -163,7 +164,7 @@ def infer():
         imagepath='utils/utils/a.jpg'
         string_data = request.form.get('string_data', 'Default String if Not Provided')
 
-        answerdict=predictor.predict(string_data,imagepath)
+        answerdict=app.predictor.predict(string_data,imagepath)
 
         
         return jsonify({'cmd': answerdict['cmd'],'imgtype':type(answerdict['img'])})

@@ -129,3 +129,35 @@ INFO:sat:[RANK 0]  > number of parameters on model parallel rank 0: 18291033280
 [2024-01-02 20:29:25 +0000] [16246] [INFO] Handling signal: int
 [2024-01-02 20:29:25 +0000] [16416] [INFO] Worker exiting (pid: 16416)
 [2024-01-02 20:29:26 +0000] [16246] [INFO] Shutting down: Master
+[2024-01-02 20:31:53 +0000] [16789] [INFO] Starting gunicorn 21.2.0
+[2024-01-02 20:31:53 +0000] [16789] [INFO] Listening at: http://0.0.0.0:8000 (16789)
+[2024-01-02 20:31:53 +0000] [16789] [INFO] Using worker: sync
+[2024-01-02 20:31:53 +0000] [16790] [INFO] Booting worker with pid: 16790
+[2024-01-02 20:32:15,654] [INFO] building CogAgentModel model ...
+[2024-01-02 20:32:15,657] [INFO] [RANK 0] > initializing model parallel with size 1
+[2024-01-02 20:32:15,657] [INFO] [RANK 0] You didn't pass in LOCAL_WORLD_SIZE environment variable. We use the guessed LOCAL_WORLD_SIZE=1. If this is wrong, please pass the LOCAL_WORLD_SIZE manually.
+[2024-01-02 20:32:15,658] [INFO] [RANK 0] You are using model-only mode.
+For torch.distributed users or loading model parallel models, set environment variables RANK, WORLD_SIZE and LOCAL_RANK.
+[2024-01-02 20:32:44,595] [INFO] [RANK 0]  > number of parameters on model parallel rank 0: 18291033280
+INFO:sat:[RANK 0]  > number of parameters on model parallel rank 0: 18291033280
+[2024-01-02 20:32:46 +0000] [16789] [CRITICAL] WORKER TIMEOUT (pid:16790)
+[2024-01-02 20:32:46 +0000] [16790] [INFO] Worker exiting (pid: 16790)
+[2024-01-02 20:32:47 +0000] [16789] [ERROR] Worker (pid:16790) exited with code 1
+[2024-01-02 20:32:47 +0000] [16789] [ERROR] Worker (pid:16790) exited with code 1.
+[2024-01-02 20:32:47 +0000] [16942] [INFO] Booting worker with pid: 16942
+[2024-01-02 20:34:24,853] ERROR in app: Exception on /infer [GET]
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/onlyvedansh/cogagent2/finale.py", line 166, in infer
+    answerdict=predictor.predict(string_data,imagepath)
+NameError: name 'predictor' is not defined. Did you mean: 'Predictor'?
+[2024-01-02 20:35:53 +0000] [16789] [INFO] Handling signal: int
+[2024-01-02 20:35:53 +0000] [16942] [INFO] Worker exiting (pid: 16942)
+[2024-01-02 20:35:54 +0000] [16789] [INFO] Shutting down: Master
