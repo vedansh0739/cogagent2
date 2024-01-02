@@ -134,43 +134,16 @@ class Predictor():
             return{'cmd':self.response, 'img':self.cache_image}
              
 
-
-app = Flask(__name__)
-@app.route('/')
-def hello_world():
-    return 'Hello, World!'
-
-@app.route('/initiate')
-def initiate():
-    logger.error("model started")
-    predictor=Predictor()
+predictor=Predictor()
 
 
-    
-@app.route('/infer')
-def infer():
-    if 'screenshot' in request.files:
-        # Retrieve the screenshot file
-        screenshot_file = request.files['screenshot']
-        screenshot_file.save('scr.jpg')
-        imagepath='scr.jpg'
-        string_data = request.form.get('string_data', 'Default String if Not Provided')
-
-        answerdict=predictor.predict(string_data,imagepath)
+imagepath='a.jpg'
+string_data=input("enter stuff")
+answerdict=predictor.predict(string_data,imagepath)
 
 
 
     
+print(answerdict)
 
 
-
-
-
-
-        
-        return jsonify({'cmd': answerdict['cmd']})
-    else:
-        return jsonify({'error': 'Screenshot file not provided.'}), 400
-
-if __name__ == '__main__':
-    app.run()
