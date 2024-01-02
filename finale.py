@@ -161,7 +161,7 @@ def infer():
         # Retrieve the screenshot file
         screenshot_file = request.files['screenshot']
         screenshot_file.save('utils/utils/a.jpg')
-        imagepath='utils/utils/a.jpg'
+        imagepath='a.jpg'
         string_data = request.form.get('string_data', 'Default String if Not Provided')
 
         answerdict=app.predictor.predict(string_data,imagepath)
