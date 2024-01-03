@@ -152,7 +152,7 @@ def hello_world():
 @app.route('/initiate')
 def initiate():
     app.predictor=Predictor()
-
+    return 'Initiated'
 
     
 @app.route('/infer')
@@ -167,7 +167,7 @@ def infer():
         answerdict=app.predictor.predict(string_data,imagepath)
 
         
-        return jsonify({'cmd': answerdict['cmd'],'imgtype':type(answerdict['img'])})
+        return jsonify({'cmd': answerdict['cmd'],'imgtype':str(type(answerdict['img']))})
     else:
         return jsonify({'error': 'Screenshot file not provided.'}), 400
 

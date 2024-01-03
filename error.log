@@ -298,3 +298,349 @@ FileNotFoundError: [Errno 2] No such file or directory: '/home/onlyvedansh/cogag
 [2024-01-02 21:31:37 +0000] [4225] [INFO] Handling signal: int
 [2024-01-02 21:31:37 +0000] [4226] [INFO] Worker exiting (pid: 4226)
 [2024-01-02 21:31:39 +0000] [4225] [INFO] Shutting down: Master
+[2024-01-02 21:34:10 +0000] [5128] [INFO] Starting gunicorn 21.2.0
+[2024-01-02 21:34:10 +0000] [5128] [INFO] Listening at: http://0.0.0.0:8000 (5128)
+[2024-01-02 21:34:10 +0000] [5128] [INFO] Using worker: sync
+[2024-01-02 21:34:10 +0000] [5129] [INFO] Booting worker with pid: 5129
+[2024-01-02 21:34:22,469] [INFO] building CogAgentModel model ...
+[2024-01-02 21:34:22,471] [INFO] [RANK 0] > initializing model parallel with size 1
+[2024-01-02 21:34:22,472] [INFO] [RANK 0] You didn't pass in LOCAL_WORLD_SIZE environment variable. We use the guessed LOCAL_WORLD_SIZE=1. If this is wrong, please pass the LOCAL_WORLD_SIZE manually.
+[2024-01-02 21:34:22,472] [INFO] [RANK 0] You are using model-only mode.
+For torch.distributed users or loading model parallel models, set environment variables RANK, WORLD_SIZE and LOCAL_RANK.
+[2024-01-02 21:34:51,528] [INFO] [RANK 0]  > number of parameters on model parallel rank 0: 18291033280
+INFO:sat:[RANK 0]  > number of parameters on model parallel rank 0: 18291033280
+[2024-01-02 21:34:56,918] [INFO] [RANK 0] global rank 0 is loading checkpoint /home/onlyvedansh/.sat_models/cogagent-chat/1/mp_rank_00_model_states.pt
+INFO:sat:[RANK 0] global rank 0 is loading checkpoint /home/onlyvedansh/.sat_models/cogagent-chat/1/mp_rank_00_model_states.pt
+[2024-01-02 21:35:20,131] [INFO] [RANK 0] > successfully loaded /home/onlyvedansh/.sat_models/cogagent-chat/1/mp_rank_00_model_states.pt
+INFO:sat:[RANK 0] > successfully loaded /home/onlyvedansh/.sat_models/cogagent-chat/1/mp_rank_00_model_states.pt
+--- Logging error ---
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/logging/__init__.py", line 1100, in emit
+    msg = self.format(record)
+  File "/opt/conda/lib/python3.10/logging/__init__.py", line 943, in format
+    return fmt.format(record)
+  File "/opt/conda/lib/python3.10/logging/__init__.py", line 678, in format
+    record.message = record.getMessage()
+  File "/opt/conda/lib/python3.10/logging/__init__.py", line 368, in getMessage
+    msg = msg % self.args
+TypeError: not all arguments converted during string formatting
+Call stack:
+  File "/opt/conda/bin/gunicorn", line 8, in <module>
+    sys.exit(run())
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/app/wsgiapp.py", line 67, in run
+    WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]").run()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/app/base.py", line 236, in run
+    super().run()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/app/base.py", line 72, in run
+    Arbiter(self).run()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/arbiter.py", line 202, in run
+    self.manage_workers()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/arbiter.py", line 571, in manage_workers
+    self.spawn_workers()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/arbiter.py", line 642, in spawn_workers
+    self.spawn_worker()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+    worker.init_process()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/base.py", line 142, in init_process
+    self.run()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 126, in run
+    self.run_for_one(timeout)
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 70, in run_for_one
+    self.accept(listener)
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 32, in accept
+    self.handle(listener, client, addr)
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 135, in handle
+    self.handle_request(listener, req, client, addr)
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 178, in handle_request
+    respiter = self.wsgi(environ, resp.start_response)
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 1478, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/onlyvedansh/cogagent2/finale.py", line 154, in initiate
+    app.predictor=Predictor()
+  File "/home/onlyvedansh/cogagent2/finale.py", line 94, in __init__
+    logger.error("[Language processor version]:", self.language_processor_version)
+Message: '[Language processor version]:'
+Arguments: ('chat',)
+ERROR:finale:Exception on /initiate [GET]
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 870, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 889, in finalize_request
+    response = self.make_response(rv)
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 1161, in make_response
+    raise TypeError(
+TypeError: The view function for 'initiate' did not return a valid response. The function either returned None or ended without a return statement.
+ERROR:finale:click on images
+ERROR:finale:The 'Images' tab is highlighted, indicating that the user is currently viewing the Images search results.
+ERROR:finale:Exception on /infer [GET]
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/onlyvedansh/cogagent2/finale.py", line 170, in infer
+    return jsonify({'cmd': answerdict['cmd'],'imgtype':type(answerdict['img'])})
+  File "/opt/conda/lib/python3.10/site-packages/flask/json/__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/flask/json/provider.py", line 215, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+  File "/opt/conda/lib/python3.10/site-packages/flask/json/provider.py", line 180, in dumps
+    return json.dumps(obj, **kwargs)
+  File "/opt/conda/lib/python3.10/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+  File "/opt/conda/lib/python3.10/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/opt/conda/lib/python3.10/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/opt/conda/lib/python3.10/site-packages/flask/json/provider.py", line 120, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type type is not JSON serializable
+[2024-01-02 21:37:01 +0000] [5128] [INFO] Handling signal: int
+[2024-01-02 21:37:01 +0000] [5129] [INFO] Worker exiting (pid: 5129)
+[2024-01-02 21:37:03 +0000] [5128] [INFO] Shutting down: Master
+[2024-01-02 21:42:22 +0000] [6109] [INFO] Starting gunicorn 21.2.0
+[2024-01-02 21:42:22 +0000] [6109] [INFO] Listening at: http://0.0.0.0:8000 (6109)
+[2024-01-02 21:42:22 +0000] [6109] [INFO] Using worker: sync
+[2024-01-02 21:42:22 +0000] [6110] [INFO] Booting worker with pid: 6110
+[2024-01-02 21:42:48,350] [INFO] building CogAgentModel model ...
+[2024-01-02 21:42:48,352] [INFO] [RANK 0] > initializing model parallel with size 1
+[2024-01-02 21:42:48,353] [INFO] [RANK 0] You didn't pass in LOCAL_WORLD_SIZE environment variable. We use the guessed LOCAL_WORLD_SIZE=1. If this is wrong, please pass the LOCAL_WORLD_SIZE manually.
+[2024-01-02 21:42:48,353] [INFO] [RANK 0] You are using model-only mode.
+For torch.distributed users or loading model parallel models, set environment variables RANK, WORLD_SIZE and LOCAL_RANK.
+[2024-01-02 21:43:17,369] [INFO] [RANK 0]  > number of parameters on model parallel rank 0: 18291033280
+INFO:sat:[RANK 0]  > number of parameters on model parallel rank 0: 18291033280
+[2024-01-02 21:43:22,751] [INFO] [RANK 0] global rank 0 is loading checkpoint /home/onlyvedansh/.sat_models/cogagent-chat/1/mp_rank_00_model_states.pt
+INFO:sat:[RANK 0] global rank 0 is loading checkpoint /home/onlyvedansh/.sat_models/cogagent-chat/1/mp_rank_00_model_states.pt
+[2024-01-02 21:43:44,529] [INFO] [RANK 0] > successfully loaded /home/onlyvedansh/.sat_models/cogagent-chat/1/mp_rank_00_model_states.pt
+INFO:sat:[RANK 0] > successfully loaded /home/onlyvedansh/.sat_models/cogagent-chat/1/mp_rank_00_model_states.pt
+--- Logging error ---
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/logging/__init__.py", line 1100, in emit
+    msg = self.format(record)
+  File "/opt/conda/lib/python3.10/logging/__init__.py", line 943, in format
+    return fmt.format(record)
+  File "/opt/conda/lib/python3.10/logging/__init__.py", line 678, in format
+    record.message = record.getMessage()
+  File "/opt/conda/lib/python3.10/logging/__init__.py", line 368, in getMessage
+    msg = msg % self.args
+TypeError: not all arguments converted during string formatting
+Call stack:
+  File "/opt/conda/bin/gunicorn", line 8, in <module>
+    sys.exit(run())
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/app/wsgiapp.py", line 67, in run
+    WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]").run()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/app/base.py", line 236, in run
+    super().run()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/app/base.py", line 72, in run
+    Arbiter(self).run()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/arbiter.py", line 202, in run
+    self.manage_workers()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/arbiter.py", line 571, in manage_workers
+    self.spawn_workers()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/arbiter.py", line 642, in spawn_workers
+    self.spawn_worker()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+    worker.init_process()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/base.py", line 142, in init_process
+    self.run()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 126, in run
+    self.run_for_one(timeout)
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 70, in run_for_one
+    self.accept(listener)
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 32, in accept
+    self.handle(listener, client, addr)
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 135, in handle
+    self.handle_request(listener, req, client, addr)
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 178, in handle_request
+    respiter = self.wsgi(environ, resp.start_response)
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 1478, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/onlyvedansh/cogagent2/finale.py", line 154, in initiate
+    app.predictor=Predictor()
+  File "/home/onlyvedansh/cogagent2/finale.py", line 94, in __init__
+    logger.error("[Language processor version]:", self.language_processor_version)
+Message: '[Language processor version]:'
+Arguments: ('chat',)
+ERROR:finale:what steps do i need to take to click on images
+ERROR:finale:Plan: 1. Locate the 'Images' tab. 2. Click on the 'Images' tab to view images.
+Next Action: Move the cursor to the top of the screen and click on the 'Images' tab, which is the second tab from the left.
+ERROR:finale:what steps do i need to take to click on images
+ERROR:finale:Plan: 1. Locate the 'Images' tab. 2. Click on the 'Images' tab to view images.
+Next Action: Move the cursor to the top of the screen and click on the 'Images' tab, which is the second tab from the left.
+[2024-01-02 21:48:54 +0000] [6109] [INFO] Handling signal: int
+[2024-01-02 21:48:54 +0000] [6110] [INFO] Worker exiting (pid: 6110)
+[2024-01-02 21:48:55 +0000] [6109] [INFO] Shutting down: Master
+[2024-01-02 22:20:42 +0000] [4791] [INFO] Starting gunicorn 21.2.0
+[2024-01-02 22:20:42 +0000] [4791] [INFO] Listening at: http://0.0.0.0:8000 (4791)
+[2024-01-02 22:20:42 +0000] [4791] [INFO] Using worker: sync
+[2024-01-02 22:20:42 +0000] [4808] [INFO] Booting worker with pid: 4808
+[2024-01-02 22:21:48,498] [INFO] building CogAgentModel model ...
+[2024-01-02 22:21:48,504] [INFO] [RANK 0] > initializing model parallel with size 1
+[2024-01-02 22:21:48,505] [INFO] [RANK 0] You didn't pass in LOCAL_WORLD_SIZE environment variable. We use the guessed LOCAL_WORLD_SIZE=1. If this is wrong, please pass the LOCAL_WORLD_SIZE manually.
+[2024-01-02 22:21:48,506] [INFO] [RANK 0] You are using model-only mode.
+For torch.distributed users or loading model parallel models, set environment variables RANK, WORLD_SIZE and LOCAL_RANK.
+[2024-01-02 22:22:17,767] [INFO] [RANK 0]  > number of parameters on model parallel rank 0: 18291033280
+INFO:sat:[RANK 0]  > number of parameters on model parallel rank 0: 18291033280
+[2024-01-02 22:22:23,164] [INFO] [RANK 0] global rank 0 is loading checkpoint /home/onlyvedansh/.sat_models/cogagent-chat/1/mp_rank_00_model_states.pt
+INFO:sat:[RANK 0] global rank 0 is loading checkpoint /home/onlyvedansh/.sat_models/cogagent-chat/1/mp_rank_00_model_states.pt
+[2024-01-02 22:24:15,510] [INFO] [RANK 0] > successfully loaded /home/onlyvedansh/.sat_models/cogagent-chat/1/mp_rank_00_model_states.pt
+INFO:sat:[RANK 0] > successfully loaded /home/onlyvedansh/.sat_models/cogagent-chat/1/mp_rank_00_model_states.pt
+--- Logging error ---
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/logging/__init__.py", line 1100, in emit
+    msg = self.format(record)
+  File "/opt/conda/lib/python3.10/logging/__init__.py", line 943, in format
+    return fmt.format(record)
+  File "/opt/conda/lib/python3.10/logging/__init__.py", line 678, in format
+    record.message = record.getMessage()
+  File "/opt/conda/lib/python3.10/logging/__init__.py", line 368, in getMessage
+    msg = msg % self.args
+TypeError: not all arguments converted during string formatting
+Call stack:
+  File "/opt/conda/bin/gunicorn", line 8, in <module>
+    sys.exit(run())
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/app/wsgiapp.py", line 67, in run
+    WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]").run()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/app/base.py", line 236, in run
+    super().run()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/app/base.py", line 72, in run
+    Arbiter(self).run()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/arbiter.py", line 202, in run
+    self.manage_workers()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/arbiter.py", line 571, in manage_workers
+    self.spawn_workers()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/arbiter.py", line 642, in spawn_workers
+    self.spawn_worker()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+    worker.init_process()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/base.py", line 142, in init_process
+    self.run()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 126, in run
+    self.run_for_one(timeout)
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 70, in run_for_one
+    self.accept(listener)
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 32, in accept
+    self.handle(listener, client, addr)
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 135, in handle
+    self.handle_request(listener, req, client, addr)
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 178, in handle_request
+    respiter = self.wsgi(environ, resp.start_response)
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 1478, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/onlyvedansh/cogagent2/finale.py", line 154, in initiate
+    app.predictor=Predictor()
+  File "/home/onlyvedansh/cogagent2/finale.py", line 94, in __init__
+    logger.error("[Language processor version]:", self.language_processor_version)
+Message: '[Language processor version]:'
+Arguments: ('chat',)
+ERROR:finale:click on gmail (with grounding)
+ERROR:finale:Plan: 1. Click on the 'Gmail' link located at the top right corner of the screen. 2. Wait for the Gmail application to open. 3. Once the Gmail application is open, check for any new emails or notifications. 4. Respond to any emails if necessary or begin composing a new email.
+Next Action: Move the cursor to the top right corner of the screen where the 'Gmail' link is located and perform a click operation.
+Grounded Operation:[link] Gmail -> CLICK at the box [[771,026,805,062]]
+[2024-01-02 22:43:50 +0000] [4791] [INFO] Handling signal: int
+[2024-01-02 22:43:50 +0000] [4808] [INFO] Worker exiting (pid: 4808)
+[2024-01-02 22:43:52 +0000] [4791] [INFO] Shutting down: Master
+[2024-01-03 21:44:15 +0000] [5852] [INFO] Starting gunicorn 21.2.0
+[2024-01-03 21:44:15 +0000] [5852] [INFO] Listening at: http://0.0.0.0:8000 (5852)
+[2024-01-03 21:44:15 +0000] [5852] [INFO] Using worker: sync
+[2024-01-03 21:44:15 +0000] [5853] [INFO] Booting worker with pid: 5853
+[2024-01-03 21:46:31,237] [INFO] building CogAgentModel model ...
+[2024-01-03 21:46:31,243] [INFO] [RANK 0] > initializing model parallel with size 1
+[2024-01-03 21:46:31,244] [INFO] [RANK 0] You didn't pass in LOCAL_WORLD_SIZE environment variable. We use the guessed LOCAL_WORLD_SIZE=1. If this is wrong, please pass the LOCAL_WORLD_SIZE manually.
+[2024-01-03 21:46:31,245] [INFO] [RANK 0] You are using model-only mode.
+For torch.distributed users or loading model parallel models, set environment variables RANK, WORLD_SIZE and LOCAL_RANK.
+[2024-01-03 21:47:00,535] [INFO] [RANK 0]  > number of parameters on model parallel rank 0: 18291033280
+INFO:sat:[RANK 0]  > number of parameters on model parallel rank 0: 18291033280
+[2024-01-03 21:47:05,956] [INFO] [RANK 0] global rank 0 is loading checkpoint /home/onlyvedansh/.sat_models/cogagent-chat/1/mp_rank_00_model_states.pt
+INFO:sat:[RANK 0] global rank 0 is loading checkpoint /home/onlyvedansh/.sat_models/cogagent-chat/1/mp_rank_00_model_states.pt
+[2024-01-03 21:48:55,259] [INFO] [RANK 0] > successfully loaded /home/onlyvedansh/.sat_models/cogagent-chat/1/mp_rank_00_model_states.pt
+INFO:sat:[RANK 0] > successfully loaded /home/onlyvedansh/.sat_models/cogagent-chat/1/mp_rank_00_model_states.pt
+--- Logging error ---
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/logging/__init__.py", line 1100, in emit
+    msg = self.format(record)
+  File "/opt/conda/lib/python3.10/logging/__init__.py", line 943, in format
+    return fmt.format(record)
+  File "/opt/conda/lib/python3.10/logging/__init__.py", line 678, in format
+    record.message = record.getMessage()
+  File "/opt/conda/lib/python3.10/logging/__init__.py", line 368, in getMessage
+    msg = msg % self.args
+TypeError: not all arguments converted during string formatting
+Call stack:
+  File "/opt/conda/bin/gunicorn", line 8, in <module>
+    sys.exit(run())
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/app/wsgiapp.py", line 67, in run
+    WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]").run()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/app/base.py", line 236, in run
+    super().run()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/app/base.py", line 72, in run
+    Arbiter(self).run()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/arbiter.py", line 202, in run
+    self.manage_workers()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/arbiter.py", line 571, in manage_workers
+    self.spawn_workers()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/arbiter.py", line 642, in spawn_workers
+    self.spawn_worker()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+    worker.init_process()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/base.py", line 142, in init_process
+    self.run()
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 126, in run
+    self.run_for_one(timeout)
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 70, in run_for_one
+    self.accept(listener)
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 32, in accept
+    self.handle(listener, client, addr)
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 135, in handle
+    self.handle_request(listener, req, client, addr)
+  File "/opt/conda/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 178, in handle_request
+    respiter = self.wsgi(environ, resp.start_response)
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 1478, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/opt/conda/lib/python3.10/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/onlyvedansh/cogagent2/finale.py", line 154, in initiate
+    app.predictor=Predictor()
+  File "/home/onlyvedansh/cogagent2/finale.py", line 94, in __init__
+    logger.error("[Language processor version]:", self.language_processor_version)
+Message: '[Language processor version]:'
+Arguments: ('chat',)
+ERROR:finale:What steps do I need to take to "type codecademy in the search box"?(with grounding)
+ERROR:finale:Plan: 1. Move the cursor to the search box located approximately in the center of the screen. 2. Click on the search box to activate it for typing. 3. Type 'codecademy' into the search box. 4. Press the 'Enter' key or click on the search icon to initiate the search.
+Next Action: Move the cursor to the center of the screen where the search box is located and click to activate it for typing.
+Grounded Operation:[combobox]  Search -> CLICK at the box [[265,308,676,376]]
+ERROR:finale:What steps do I need to take to "type codecademy in a search box"?(with grounding)
+ERROR:finale:Plan: 1. Move the cursor to the search box located approximately in the center of the screen. 2. Click on the search box to activate it for typing. 3. Type 'codecademy' into the search box. 4. Press the 'Enter' key or click on the search icon to initiate the search.
+Next Action: Move the cursor to the center of the screen where the search box is located and click to activate it for typing.
+Grounded Operation:[combobox]  Search -> CLICK at the box [[265,308,676,376]]
+[2024-01-03 22:14:50 +0000] [5852] [INFO] Handling signal: int
+[2024-01-03 22:14:50 +0000] [5853] [INFO] Worker exiting (pid: 5853)
+[2024-01-03 22:14:51 +0000] [5852] [INFO] Shutting down: Master
