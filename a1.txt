@@ -1,4 +1,4 @@
-#script to download model
+#sscript to download model
 from cog import BasePredictor, Path, Input, BaseModel, File
 import torch
 import os, sys
