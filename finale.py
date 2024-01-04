@@ -155,7 +155,7 @@ def initiate():
     return 'Initiated'
 
     
-@app.route('/infer')
+@app.route('/infer', methods=['POST'])
 def infer():
     if 'screenshot' in request.files:
         # Retrieve the screenshot file
