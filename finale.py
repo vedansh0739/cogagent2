@@ -1,10 +1,12 @@
 
-from flask import Flask, request, jsonify
 from PIL import Image
 import io
 import logging
 logger = logging.getLogger(__name__)
-
+from torchvision import transforms
+from flask import Flask, jsonify, request, send_file
+from io import BytesIO
+import base64
 
 
 
@@ -144,15 +146,8 @@ class Predictor():
 
 
 app = Flask(__name__)
-app.predictor = None
-@app.route('/')
-def hello_world():
-    return 'Hello, World!'
+app.predictor=Predictor()
 
-@app.route('/initiate')
-def initiate():
-    app.predictor=Predictor()
-    return 'Initiated'
 
     
 @app.route('/infer', methods=['POST'])
@@ -165,9 +160,36 @@ def infer():
         string_data = request.form.get('string_data', 'Default String if Not Provided')
 
         answerdict=app.predictor.predict(string_data,imagepath)
+        image_tensor = answerdict['img'][0]['image'].cpu().detach()
+       
+
+        if image_tensor.max() <= 1:
+            image_tensor *= 255  # Rescale if in range [0, 1]
+
+        image_tensor = image_tensor.byte()  # Convert to 8-bit integer
+
+        # Convert to PIL image (ensure it's in RGB format if needed)
+        pil_image = transforms.ToPILImage()(image_tensor.squeeze(0)).convert('RGB')
+
+
+
+
+
+
+        # Convert PIL image to a bytes buffer
+        img_bytes_io = BytesIO()
+        pil_image.save(img_bytes_io, format='PNG')
+        img_bytes_io.seek(0)
+        img_data = img_bytes_io.getvalue()
+
+        # Encode the image to base64
+        img_base64 = base64.b64encode(img_data).decode('utf-8')
+
+        # Return the result as JSON
+        return jsonify({'cmd': answerdict['cmd'], 'image': img_base64})
+
 
         
-        return jsonify({'cmd': answerdict['cmd'],'imgtype':str(type(answerdict['img']))})
     else:
         return jsonify({'error': 'Screenshot file not provided.'}), 400
 
